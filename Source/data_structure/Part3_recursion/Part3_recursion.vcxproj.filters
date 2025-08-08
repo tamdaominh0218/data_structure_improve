@@ -24,5 +24,14 @@
     <ClCompile Include="factorial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="power.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Taylor_series.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Fibonacci.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
