@@ -33,5 +33,8 @@
     <ClCompile Include="Fibonacci.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Hanoi_tower.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
