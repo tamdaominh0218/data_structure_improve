@@ -161,9 +161,9 @@ void Array::sort_arr() {
 }
 
 void Array::intersection(const Array &a2) {
-	Array* a3 = new Array;
+	Array* a3 = new Array(min(length, a2.length));
 	a3->length = 0;
-	int m = 0, n = 0, k = 0;
+	int k = 0;
 	for (size_t i = 0; i < length; i++)
 	{
 		for (size_t j = 0; j < a2.length; j++)
@@ -181,7 +181,7 @@ void Array::intersection(const Array &a2) {
 }
 
 void Array::difference(const Array &a2) {
-	Array* a3 = new Array;
+	Array* a3 = new Array(min(length, a2.length));
 	a3->length = 0;
 	int k = 0, count = 0;
 	for (size_t i = 0; i < length; i++)
@@ -203,14 +203,15 @@ void Array::difference(const Array &a2) {
 	}
 
 	a3->display();
+	delete a3;
 }
 
 int main() {
 	int size, ch, ele, val;
 	cout << "Enter size of array: ";
 	cin >> size;
-	Array* arr;
-	arr = new Array(size);
+	Array* arr1;
+	arr1 = new Array(size);
 
 	Array* arr2;
 	arr2 = new Array(20);
@@ -237,64 +238,22 @@ int main() {
 		{
 		case 1: cout << "Enter index and value you want insert into array: ";
 			cin >> ele >> val;
-			arr->insert(ele, val);
+			arr1->insert(ele, val);
 			break;
 		case 2: cout << "Enter index you want delete: ";
 			cin >> ele;
-			arr->remove(ele);
+			arr1->remove(ele);
 			break;
-		case 3: arr->display();
+		case 3: arr1->display();
 			break;
-		case 4: arr->intersection(*arr2);
+		case 4: arr1->intersection(*arr2);
 			break;
 
 		}
 	} while (ch < 5);
 
-
-	///*Array arr1(10);
-
-	//arr1.add(3);
-	//arr1.add(5);
-	//arr1.add(7);
-	//arr1.add(9);
-	//arr1.display();
-
-	//arr1.insert(3, 12);
-	//arr1.display();
-
-	//arr1.remove(1);
-	//arr1.display();*/
-
-	///*insert in sorted*/
-	//Array arr2(20);
-	//arr2.add(3);
-	//arr2.add(5);
-	//arr2.add(7);
-	////arr2.add(9);
-	////arr2.add(11);
-	////arr2.add(15);
-	////arr2.add(18);
-	////arr2.add(21);
-	////arr2.display();
-	////arr2.insert_in_sorted(8);
-	////arr2.insert_in_sorted(17);
-	//arr2.display();
-
-	//Array arr3(20);
-
-	//arr3.add(30);
-	//arr3.add(50);
-	//arr3.add(70);
-	//arr3.add(90);
-	//arr3.merging_arr2(arr2);
-
-	//Array arr4(20);
-	//arr4.add(5);
-	//arr4.add(2);
-	//arr4.add(17);
-	//arr4.add(10);
-	//arr4.sort_arr();
+	delete arr1;
+	delete arr2;
 
 	return 0;
 }

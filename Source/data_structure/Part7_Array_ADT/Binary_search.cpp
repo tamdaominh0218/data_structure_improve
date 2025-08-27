@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 struct Array {
@@ -36,29 +37,12 @@ int binarySearch1(struct Array arr, int key) {
 	return -1;
 }
 
-void insert_in_sorted(struct Array *arr, int key) {
-	arr->length+=1;
-	int i = arr->length-2;
-	while (key<arr->A[i])
-	{
-		if (key < arr->A[i])
-		{
-			arr->A[i + 1] = arr->A[i];
-		}
-		else
-		{
-			arr->A[i] = key;
-		}
-		i--;
-	}
-	arr->A[i+1] = key;	
-}
-
 int main() {
 	struct Array arr = { {2,5,9,11,17,32,45,56,98,113,154,200,543,600}, 20, 14 };
 	display(&arr);
+
+	/*Binary search*/
 	cout << binarySearch1(arr, 600) << endl;
-	insert_in_sorted(&arr, 114);
-	display(&arr);
+
 	return 0;
 }
