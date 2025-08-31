@@ -6,7 +6,8 @@ void update(int** p) {
 	*p = newPtr;
 }
 
-void swap(int* a, int* b) {
+template <typename T>
+void swap(T* a, T* b) {
 
 	*a = *a + *b;
 	*b = *a - *b;
@@ -23,7 +24,7 @@ int main() {
 	int *prt1 = &num1; 
 	int *prt2 = &num2;
 	cout << num1 << " " << num2 << endl;
-	swap(prt1, prt2);
+	swap<int>(prt1, prt2);
 	cout << num1 << " " << num2 << endl;
 
 	return 0;
