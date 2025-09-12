@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <queue>
 #include <vector>
 using namespace std;
@@ -40,6 +40,12 @@ void Tree::createfromArray(const vector<int>& v) {
 	if (v.size() == 0)
 	{
 		cout << "Tree empty!" << endl;
+		root = nullptr;
+		return;
+	}
+	// nếu phần tử đầu tiên là - 1 thì cây rỗng
+	if (v[0] == -1) {
+		root = nullptr;
 		return;
 	}
 
@@ -53,13 +59,16 @@ void Tree::createfromArray(const vector<int>& v) {
 	{
 		Node* temp = q.front();
 		q.pop();
-		if (v[i]!=-1 && i < v.size())
+
+		// gán con trái
+		if (v[i]!=-1)
 		{
 			temp->left = new Node(v[i]);
 			q.push(temp->left);
 		}
 		i++;
 
+		// gán con phải
 		if (v[i] != -1 && i < v.size())
 		{
 			temp->right = new Node(v[i]);

@@ -53,10 +53,6 @@ Node* Tree::add(int val) {
 			q.pop();
 			if (temp->left == nullptr)
 			{
-				//if (val == -1)
-				//{
-				//	q.push(temp->left);
-				//}
 				temp->left = newNode;
 				break;
 			}
@@ -67,10 +63,6 @@ Node* Tree::add(int val) {
 
 			if (temp->right == nullptr)
 			{
-				//if (val == -1)
-				//{
-				//	q.push(temp->left);
-				//}
 				temp->right = newNode;
 				break;
 			}

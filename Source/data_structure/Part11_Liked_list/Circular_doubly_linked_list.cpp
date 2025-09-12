@@ -15,6 +15,7 @@ void insertEnd(Node** head, int val) {
 	{
 		*head = newNode;
 		newNode->next = *head;
+		newNode->prev = *head;
 		return;
 	}
 
