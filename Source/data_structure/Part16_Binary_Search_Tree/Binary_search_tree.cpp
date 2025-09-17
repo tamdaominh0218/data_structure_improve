@@ -25,6 +25,8 @@ public:
 	void displayPost();
 	void displayPostUsingStack();
 	void deleteBST(int val);
+	Node* minRightTree(Node* node);
+	void deleteNode(Node* node);
 
 private:
 	Node* root;
@@ -227,25 +229,27 @@ BST::~BST()
 	free(root);
 }
 
+Node* BST::minRightTree(Node* node) {
+	Node* r = nullptr;
+	Node* temp = node;
+
+	temp = temp->right;
+	while (temp->left != nullptr)
+	{
+		r = temp;
+		temp = temp->left;
+	}
+	return r;
+}
+
+void BST::deleteNode(Node* node) {
+	delete node->left;
+	node->left = node->right = nullptr;
+}
+
 void BST::deleteBST(int val) {
 	if (!root) return;
-	if (val == root->data) 
-	{
-		int c;
-		cout << "Delete root = delete all BST? Are yout sure?\n 1. Delete\n 2. Exit" << endl;
-		cin >> c;
-		switch (c)
-		{
-		case 1:
-			free(root);
-			break;
-		case 2:
-			break;
-		}
-		return;
-	}
-
-	if (search(val))
+		if (search(val))
 	{
 		Node* r = nullptr;
 		Node* temp = root;
@@ -263,6 +267,13 @@ void BST::deleteBST(int val) {
 			}
 
 		}
+		if (temp->right && temp->left)
+		{
+			temp->data = ((minRightTree(temp))->left)->data;
+			deleteNode(minRightTree(temp));
+			return;
+		}
+
 		Node* temp2 = nullptr;
 		if (val<r->data)
 		{
@@ -325,7 +336,8 @@ int main() {
 	tr1.displayPostUsingStack();
 	cout << endl;*/
 
-	tr1.deleteBST(9);
+	//Delete BST
+	tr1.deleteBST(15);
 	tr1.displayPreUsingStack();
 	
 	return 0;
