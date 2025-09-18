@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <stack>
 using namespace std;
 
@@ -24,9 +24,7 @@ public:
 	void displayInUsingStack();
 	void displayPost();
 	void displayPostUsingStack();
-	void deleteBST(int val);
-	Node* minRightTree(Node* node);
-	void deleteNode(Node* node);
+	void deleteNode(int val);
 
 private:
 	Node* root;
@@ -229,83 +227,137 @@ BST::~BST()
 	free(root);
 }
 
-Node* BST::minRightTree(Node* node) {
-	Node* r = nullptr;
-	Node* temp = node;
-
-	temp = temp->right;
-	while (temp->left != nullptr)
+void BST::deleteNode(int val) {
+	if (!root)
 	{
-		r = temp;
-		temp = temp->left;
-	}
-	return r;
-}
-
-void BST::deleteNode(Node* node) {
-	delete node->left;
-	node->left = node->right = nullptr;
-}
-
-void BST::deleteBST(int val) {
-	if (!root) return;
-		if (search(val))
-	{
-		Node* r = nullptr;
-		Node* temp = root;
-		while (temp->data != val)
-		{
-			if (val < temp->data)
-			{
-				r = temp;
-				temp = temp->left;
-			}
-			if (val > temp->data)
-			{
-				r = temp;
-				temp = temp->right;
-			}
-
-		}
-		if (temp->right && temp->left)
-		{
-			temp->data = ((minRightTree(temp))->left)->data;
-			deleteNode(minRightTree(temp));
-			return;
-		}
-
-		Node* temp2 = nullptr;
-		if (val<r->data)
-		{
-			temp2 = temp;
-			if (temp->left)
-			{
-				r->left = temp2->left;
-			}
-			else
-			{
-				r->left = temp2->right;
-			}
-			delete temp;
-		}
-		else
-		{
-			temp2 = temp;
-			if (temp->right)
-			{
-				r->right = temp2->right;
-			}
-			else
-			{
-				r->right = temp2->left;
-			}
-			delete temp;
-		}
-	}
-	else
-	{
-		cout << "BST have not data " << val << endl;
 		return;
+	}
+	Node* curr = root;
+	Node* parrent = nullptr;
+	//Tìm node cần xóa và cha của nó
+	while (curr->data!=val)
+	{
+		parrent = curr;
+		if (val<curr->data)
+		{
+			curr = curr->left;
+		}
+		else if (val>curr->data)
+		{
+			curr = curr->right;
+		}
+	}
+
+	if (curr->left && curr->right)
+	{
+		//Tìm successor và cha của nó
+		Node* successor = curr;
+		Node* succParrent = nullptr;
+
+		if (successor->right)
+		{
+			successor = successor->right;
+			while (successor->left != nullptr)
+			{
+				succParrent = successor;
+				successor = successor->left;
+			}
+		}
+		else if (!successor->right)
+		{
+			successor = successor->left;
+			while (successor->right != nullptr)
+			{
+				succParrent = successor;
+				successor = successor->right;
+			}
+		}
+		//copy giá trị successor lên curr
+		curr->data = successor->data;
+
+		//chuẩn bị xóa successor
+		curr = successor;
+		parrent = succParrent;
+
+		if (succParrent->left == successor)
+		{
+			//tiến hành xóa successor
+			Node* chill = nullptr;
+			if (successor->left)
+			{
+				chill = successor->left;
+				parrent->left = chill;
+				delete curr;
+			}
+			else if (successor->right)
+			{
+				chill = successor->right;
+				parrent->left = chill;
+				delete curr;
+			}
+		}
+		else if (succParrent->right == successor)
+		{
+			//tiến hành xóa successor
+			Node* chill = nullptr;
+			if (successor->left)
+			{
+				chill = successor->left;
+				parrent->right = chill;
+				delete curr;
+			}
+			else if (successor->right)
+			{
+				chill = successor->right;
+				parrent->right = chill;
+				delete curr;
+			}
+		}
+	}
+	else if (curr->left==nullptr && curr->right==nullptr)
+	{
+		if (parrent->left)
+		{
+			parrent->left = nullptr;
+			delete curr;
+		}
+		else if (parrent->right)
+		{
+			parrent->left = nullptr;
+			delete curr;
+		}
+	}
+	else if(curr->right)
+	{
+		Node* chill = nullptr;
+		if (parrent->left)
+		{
+			chill = curr->right;
+			parrent->left = chill;
+			delete curr;
+		}
+		else if (parrent->right)
+		{
+			chill = curr->right;
+			parrent->right = chill;
+			delete curr;
+		}
+	}
+	else if (curr->left)
+	{
+		Node* chill = nullptr;
+		if (parrent->left)
+		{
+			chill = curr->left;
+			parrent->left = chill;
+			delete curr;
+		}
+		else if (parrent->right)
+		{
+			chill = curr->left;
+			parrent->right = chill;
+			delete curr;
+		}
 	}
 }
 
@@ -320,6 +372,8 @@ int main() {
 	tr1.insertNode(12);
 	tr1.insertNode(3);
 	tr1.insertNode(6);
+	tr1.insertNode(13);
+	tr1.insertNode(17);
 	
 	tr1.displayPre();
 	cout << endl;
@@ -337,7 +391,7 @@ int main() {
 	cout << endl;*/
 
 	//Delete BST
-	tr1.deleteBST(15);
+	tr1.deleteNode(15);
 	tr1.displayPreUsingStack();
 	
 	return 0;
