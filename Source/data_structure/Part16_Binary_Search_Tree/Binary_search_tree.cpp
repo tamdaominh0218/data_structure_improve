@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <stack>
+#include <vector>
 using namespace std;
 
 class Node
@@ -25,6 +26,7 @@ public:
 	void displayPost();
 	void displayPostUsingStack();
 	void deleteNode(int val);
+	void createBST_Pre(vector<int>& vec);
 
 private:
 	Node* root;
@@ -307,38 +309,108 @@ void BST::deleteNode(int val) {
 	}
 }
 
+void BST::createBST_Pre(vector<int>& vec) {
+	if (vec.size()==0)
+	{
+		cout << "BST is empty!" << endl;
+		root = nullptr;
+		return;
+	}
+
+	if (!root)
+	{
+		Node* newNode = new Node(vec[0]);
+		root = newNode;
+	}
+
+	stack<Node*> st;
+	Node* curr = root;
+	st.push(root);
+	int i = 1;
+	while (i<vec.size())
+	{
+		if (vec[i]<curr->data)
+		{
+			Node* newNode = new Node(vec[i++]);
+			curr->left = newNode;
+			st.push(curr);
+			curr = newNode;
+		}
+		else
+		{
+			if (st.empty())
+			{
+				if (vec[i] > curr->data)
+				{
+					Node* newNode = new Node(vec[i++]);
+					curr->right = newNode;
+					st.push(curr);
+					curr = newNode;
+				}
+				else
+				{
+					curr = st.top();
+					st.pop();
+				}
+			}
+			else
+			{
+				if (vec[i] > curr->data && vec[i] < st.top()->data)
+				{
+					Node* newNode = new Node(vec[i++]);
+					curr->right = newNode;
+					st.push(curr);
+					curr = newNode;
+				}
+				else
+				{
+					curr = st.top();
+					st.pop();
+				}
+			}
+		}
+	}
+}
+
 int main() {
-	BST tr1;
-	tr1.insertNode(9);
-	tr1.insertNode(15);
-	tr1.insertNode(5);
-	tr1.insertNode(20);
-	tr1.insertNode(16);
-	tr1.insertNode(8);
-	tr1.insertNode(12);
-	tr1.insertNode(3);
-	tr1.insertNode(6);
-	tr1.insertNode(13);
-	tr1.insertNode(17);
-	
-	tr1.displayPre();
-	cout << endl;
-	tr1.displayPreUsingStack();
-	cout << endl;
+	//BST tr1;
+	//tr1.insertNode(9);
+	//tr1.insertNode(15);
+	//tr1.insertNode(5);
+	//tr1.insertNode(20);
+	//tr1.insertNode(16);
+	//tr1.insertNode(8);
+	//tr1.insertNode(12);
+	//tr1.insertNode(3);
+	//tr1.insertNode(6);
+	//tr1.insertNode(13);
+	//tr1.insertNode(17);
+	//
+	//tr1.displayPre();
+	//cout << endl;
+	//tr1.displayPreUsingStack();
+	//cout << endl;
 
-	/*tr1.displayIn();
-	cout << endl;
-	tr1.displayInUsingStack();
-	cout << endl;
+	///*tr1.displayIn();
+	//cout << endl;
+	//tr1.displayInUsingStack();
+	//cout << endl;
 
-	tr1.displayPost();
-	cout << endl;
-	tr1.displayPostUsingStack();
-	cout << endl;*/
+	//tr1.displayPost();
+	//cout << endl;
+	//tr1.displayPostUsingStack();
+	//cout << endl;*/
 
-	//Delete BST
-	tr1.deleteNode(15);
-	tr1.displayPreUsingStack();
+	////Delete BST
+	//tr1.deleteNode(15);
+	//tr1.displayPreUsingStack();
+
+	//Test Generating BST from Preorder
+	vector<int> v = { 30, 20, 10, 15, 25, 40, 50, 45 };
+	BST tr2;
+	tr2.createBST_Pre(v);
+	tr2.displayPreUsingStack();
+
 	
 	return 0;
 }
