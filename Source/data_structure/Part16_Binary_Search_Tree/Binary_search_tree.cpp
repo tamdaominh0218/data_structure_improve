@@ -319,55 +319,31 @@ void BST::createBST_Pre(vector<int>& vec) {
 
 	if (!root)
 	{
-		Node* newNode = new Node(vec[0]);
-		root = newNode;
+		root = new Node(vec[0]);
 	}
 
 	stack<Node*> st;
 	Node* curr = root;
 	st.push(root);
-	int i = 1;
-	while (i<vec.size())
+	
+	for (int i = 1; i < vec.size(); i++)
 	{
-		if (vec[i]<curr->data)
+		Node* newNode = new Node(vec[i]);
+		if (vec[i] < curr->data)
 		{
-			Node* newNode = new Node(vec[i++]);
 			curr->left = newNode;
 			st.push(curr);
 			curr = newNode;
 		}
 		else
 		{
-			if (st.empty())
+			while (!st.empty() && vec[i] > st.top()->data)
 			{
-				if (vec[i] > curr->data)
-				{
-					Node* newNode = new Node(vec[i++]);
-					curr->right = newNode;
-					st.push(curr);
-					curr = newNode;
-				}
-				else
-				{
-					curr = st.top();
-					st.pop();
-				}
+				curr = st.top();
+				st.pop();
 			}
-			else
-			{
-				if (vec[i] > curr->data && vec[i] < st.top()->data)
-				{
-					Node* newNode = new Node(vec[i++]);
-					curr->right = newNode;
-					st.push(curr);
-					curr = newNode;
-				}
-				else
-				{
-					curr = st.top();
-					st.pop();
-				}
-			}
+			curr->right = newNode;
+			curr = newNode;
 		}
 	}
 }
