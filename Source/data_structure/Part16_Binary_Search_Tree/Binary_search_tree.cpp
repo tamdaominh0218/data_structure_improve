@@ -230,134 +230,80 @@ BST::~BST()
 void BST::deleteNode(int val) {
 	if (!root)
 	{
+		cout << "BST is empty!" << endl;
 		return;
 	}
+
+	//Tìm node cần xóa (curr) và cha của nó (parent)
 	Node* curr = root;
-	Node* parrent = nullptr;
-	//Tìm node cần xóa và cha của nó
+	Node* parent = nullptr;
 	while (curr->data!=val)
 	{
-		parrent = curr;
+		parent = curr;
 		if (val<curr->data)
 		{
 			curr = curr->left;
 		}
-		else if (val>curr->data)
+		else if (val > curr->data)
 		{
 			curr = curr->right;
 		}
 	}
 
+	//Xử lý BST không có node cần xóa (curr = nulllptr)
+	if (curr==nullptr)
+	{
+		cout << "No data to delete!" << endl;
+		return;
+	}
+
+	//Xử lý TH node cần xóa có 2 con
 	if (curr->left && curr->right)
 	{
-		//Tìm successor và cha của nó
 		Node* successor = curr;
-		Node* succParrent = nullptr;
-
-		if (successor->right)
+		Node* succparent = nullptr;
+		//Tìm successor (node kế nhiệm) và cha của nó
+		successor = successor->right;
+		while (successor->left != nullptr)
 		{
-			successor = successor->right;
-			while (successor->left != nullptr)
-			{
-				succParrent = successor;
-				successor = successor->left;
-			}
-		}
-		else if (!successor->right)
-		{
+			succparent = successor;
 			successor = successor->left;
-			while (successor->right != nullptr)
-			{
-				succParrent = successor;
-				successor = successor->right;
-			}
 		}
-		//copy giá trị successor lên curr
+
+		//copy data của successor lên node cần xóa;
 		curr->data = successor->data;
 
 		//chuẩn bị xóa successor
 		curr = successor;
-		parrent = succParrent;
+		parent = succparent;
+	}
 
-		if (succParrent->left == successor)
-		{
-			//tiến hành xóa successor
-			Node* chill = nullptr;
-			if (successor->left)
-			{
-				chill = successor->left;
-				parrent->left = chill;
-				delete curr;
-			}
-			else if (successor->right)
-			{
-				chill = successor->right;
-				parrent->left = chill;
-				delete curr;
-			}
-		}
-		else if (succParrent->right == successor)
-		{
-			//tiến hành xóa successor
-			Node* chill = nullptr;
-			if (successor->left)
-			{
-				chill = successor->left;
-				parrent->right = chill;
-				delete curr;
-			}
-			else if (successor->right)
-			{
-				chill = successor->right;
-				parrent->right = chill;
-				delete curr;
-			}
-		}
-	}
-	else if (curr->left==nullptr && curr->right==nullptr)
+	//Trường hợp node có 0 hoặc 1 con
+	Node* chill = nullptr;
+	if (curr->left)
 	{
-		if (parrent->left)
-		{
-			parrent->left = nullptr;
-			delete curr;
-		}
-		else if (parrent->right)
-		{
-			parrent->left = nullptr;
-			delete curr;
-		}
+		chill = curr->left;
 	}
-	else if(curr->right)
+	else if (curr->right)
 	{
-		Node* chill = nullptr;
-		if (parrent->left)
-		{
-			chill = curr->right;
-			parrent->left = chill;
-			delete curr;
-		}
-		else if (parrent->right)
-		{
-			chill = curr->right;
-			parrent->right = chill;
-			delete curr;
-		}
+		chill = curr->right;
 	}
-	else if (curr->left)
+	
+	if (!parent)
 	{
-		Node* chill = nullptr;
-		if (parrent->left)
-		{
-			chill = curr->left;
-			parrent->left = chill;
-			delete curr;
-		}
-		else if (parrent->right)
-		{
-			chill = curr->left;
-			parrent->right = chill;
-			delete curr;
-		}
+		//xóa root
+		delete root;
+		root = chill;
+	}
+	else if (parent->left=curr)
+	{
+		delete curr;
+		parent->left = chill;
+	}
+	else if (parent->right=curr)
+	{
+		delete curr;
+		parent->right = chill;
 	}
 }
 
