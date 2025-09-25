@@ -337,6 +337,7 @@ void BST::createBST_Pre(vector<int>& vec) {
 		}
 		else
 		{
+			// Tìm ancestor phù hợp để gắn node bên phải
 			while (!st.empty() && vec[i] > st.top()->data)
 			{
 				curr = st.top();
