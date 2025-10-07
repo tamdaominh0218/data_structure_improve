@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <set>
 #include <vector>
 using namespace std;
@@ -43,6 +43,7 @@ void mySort(int Arr[], int n) {
 	}
 }
 
+//insert sort phiên bản tụ dev
 void insertSort(vector<int>&v, int n) {
 	for (int i = 0; i < n - 1; i++)
 	{
@@ -81,6 +82,38 @@ void insertSort(vector<int>&v, int n) {
 
 	}
 }
+
+////insert sort phiên bản tối ưu và clean hơn
+//void insertSort(vector<int>& v, int n) {
+//	for (int i = 0; i < n - 1; i++) {
+//		int x = -1;
+//
+//		// Tìm vị trí cần chèn v[i+1] trong đoạn [0..i]
+//		for (int j = 0; j <= i; j++) {
+//			if (v[j] > v[i + 1]) {
+//				x = j;
+//				break;
+//			}
+//		}
+//
+//		// Nếu không cần chèn (v[i+1] đã đúng vị trí)
+//		if (x == -1)
+//			continue;
+//
+//		int temp = v[i + 1];
+//		int y = i + 1;
+//
+//		// Dịch các phần tử sang phải để tạo chỗ trống
+//		while (y > x) {
+//			v[y] = v[y - 1];
+//			y--;
+//		}
+//
+//		// Chèn phần tử vào vị trí đúng
+//		v[x] = temp;
+//	}
+//}
+
 
 void displayArray(vector<int>& v, int length) {
 	for (size_t i = 0; i < length; i++)
