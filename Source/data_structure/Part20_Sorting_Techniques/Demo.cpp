@@ -47,7 +47,8 @@ void mySort(int Arr[], int n) {
 void insertSort(vector<int>&v, int n) {
 	for (int i = 0; i < n - 1; i++)
 	{
-		int x;
+		//Tìm vị trí cần chèn
+		int x = -1;
 		for (size_t j = 0; j < i+1; j++)
 		{
 			if (v[j]>v[i+1])
@@ -55,6 +56,7 @@ void insertSort(vector<int>&v, int n) {
 				x = j;
 				break;
 			}
+			//TH ko cần chèn, v[i+1] đã lớn hơn tất cả thì giữ nguyên flag x = -1
 			else
 			{
 				x = -1;
@@ -62,15 +64,19 @@ void insertSort(vector<int>&v, int n) {
 		}
 		if (x == -1)
 		{
-			continue;
+			continue; //vòng lặp i tiếp tục chạy
 		}
+
+		//biến temp để lưu giá trị cần chèn, tạo thêm y và k để hỗ trợ dịch
 		int temp = v[i + 1];
 		int y = i + 1;
 		int k = i;
+		//TH vị trí chèn ngay sát bên cạnh (cuối)
 		if (k==x)
 		{
 			v[y] = v[k];
 		}
+		//TH vị trí chèn cần dịch
 		else
 		{
 			while (y != x)
@@ -78,8 +84,8 @@ void insertSort(vector<int>&v, int n) {
 				v[y--] = v[k--];
 			}
 		}
+		//chèn data vào vị trí x là vị trí cần chèn
 		v[x] = temp;
-
 	}
 }
 
