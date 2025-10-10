@@ -3,15 +3,15 @@
 #include <vector>
 using namespace std;
 
-void bubbleSort(int Arr[], int n) {
-	for (int i = 0; i < n-1; i++)
+void bubbleSort(vector<int>&v) {
+	for (int i = 0; i < v.size() - 1; i++)
 	{
 		int flag = 0;
-		for (int j = 0; j < n-1-i; j++)
+		for (int j = 0; j < v.size() - 1 -i; j++)
 		{
-			if (Arr[j]>Arr[j+1])
+			if (v[j]>v[j+1])
 			{
-				swap(Arr[j], Arr[j+1]);
+				swap(v[j], v[j+1]);
 				flag = 1;
 			}
 		}
@@ -20,32 +20,32 @@ void bubbleSort(int Arr[], int n) {
 	}
 }
 
-void sortSTL(int Arr[], int n) {
+void sortSTL(vector<int>&v) {
 	multiset<int> setSort;
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < v.size(); i++)
 	{
-		setSort.insert(Arr[i]);
+		setSort.insert(v[i]);
 	}
 }
 
-void mySort(int Arr[], int n) {
-	for (size_t i = 0; i < n-1; i++)
+void mySort(vector<int>&v) {
+	for (size_t i = 0; i < v.size() - 1; i++)
 	{
-		int temp = Arr[i + 1];
+		int temp = v[i + 1];
 		for (size_t j = 0; j < i+1 ; j++)
 		{
-			if (Arr[j]>temp)
+			if (v[j]>temp)
 			{
-				swap(Arr[j], Arr[i+1]);
-				temp = Arr[i+1];
+				swap(v[j], v[i+1]);
+				temp = v[i+1];
 			}
 		}
 	}
 }
 
-////insert sort phiên bản tụ dev
-//void insertSort(vector<int>&v, int n) {
-//	for (int i = 0; i < n - 1; i++)
+////insert sort phiên bản tự dev
+//void insertSort(vector<int>&v) {
+//	for (int i = 0; i < v.size() - 1; i++)
 //	{
 //		//Tìm vị trí cần chèn
 //		int x = -1;
@@ -90,8 +90,8 @@ void mySort(int Arr[], int n) {
 //}
 
 ////insert sort phiên bản tối ưu và clean hơn
-//void insertSort(vector<int>& v, int n) {
-//	for (int i = 0; i < n - 1; i++) {
+//void insertSort(vector<int>& v) {
+//	for (int i = 0; i < v.size() - 1; i++) {
 //		int x = -1;
 //
 //		// Tìm vị trí cần chèn v[i+1] trong đoạn [0..i]
@@ -121,8 +121,8 @@ void mySort(int Arr[], int n) {
 //}
 
 //Insert sort phiên bản udemy
-void insertSort(vector<int>& v, int n) {
-	for (int i = 1; i < n; i++)
+void insertSort(vector<int>& v) {
+	for (int i = 1; i < v.size() - 1; i++)
 	{
 		int x = v[i];
 		int j = i - 1;
@@ -136,23 +136,25 @@ void insertSort(vector<int>& v, int n) {
 	}
 }
 
-void selectionSort(vector<int>& v, int n) {
-	for (int i = 0; i < n-1; i++)
+//Chọn phần tử có giá trị nhỏ nhất trong mảng chưa sắp xếp rồi swap với phần tử bên trái phần tử cuối cùng của mảng đã sắp xếp
+void selectionSort(vector<int>& v) {
+	for (int i = 0; i < v.size() - 1; i++)
 	{
-		int y, k;
-		y = k = i;
-		while (y<n-1)
+		int y, min_idx;
+		y = min_idx = i;
+		while (y< v.size() - 1)
 		{
 			y++;
-			if (v[y]<v[k])
+			if (v[y]<v[min_idx])
 			{
-				k = y;
+				min_idx = y;
 			}
 		}
-		swap(v[k], v[i]);
+		swap(v[min_idx], v[i]);
 	}
 }
 
+//Quick sort phiên bản tự dev
 void quickSort(vector<int>& v, int left, int right) {
 	if (left>=right)
 	{
@@ -186,27 +188,110 @@ void quickSort(vector<int>& v, int left, int right) {
 	quickSort(v, i + 1, right);
 }
 
-void displayArray(vector<int>& v, int length) {
-	for (size_t i = 0; i < length; i++)
+////Quick sort phiên bản chuản Pseudocode (chatGPT)
+//void quickSort(vector<int>& arr, int left, int right) {
+//	if (left >= right) return; // dừng khi mảng con rỗng hoặc chỉ có 1 phần tử
+//
+//	int pivot = arr[right]; // chọn pivot là phần tử cuối
+//	int i = left - 1;
+//
+//	for (int j = left; j < right; j++) {
+//		if (arr[j] < pivot) {
+//			i++;
+//			swap(arr[i], arr[j]);
+//		}
+//	}
+//
+//	// Đưa pivot về đúng vị trí
+//	swap(arr[i + 1], arr[right]);
+//
+//	// Gọi đệ quy cho hai nửa
+//	quickSort(arr, left, i);
+//	quickSort(arr, i + 2, right);
+//}
+
+void insert(int* Arr, int key, int i) {
+	Arr[i] = key;
+}
+
+int* merge(int Arr1[], int Arr2[], int n1, int n2) {
+	int* newArr = new int[n1 + n2];
+	int k=0;
+	while (k<n1+n2-1)
+	{
+		int jBackup = 0;
+		for (size_t i = 0; i < n1; i++)
+		{
+			for (size_t j = 0; j < n2; j++)
+			{
+				//Xử lý nếu j cần backup trong trường hợp Arr1[i] <= Arr2[j]
+				if (j>=jBackup)
+				{
+					if (Arr1[i] <= Arr2[j])
+					{
+						insert(newArr, Arr1[i], k);
+						k++;
+						jBackup = j;
+						break;
+					}
+					else
+					{
+						insert(newArr, Arr2[j], k);
+						k++;
+					}
+				}
+			}
+		}
+
+		//Xử lý phần tử cuối của 2 mảng
+		if (Arr1[n1-1]>Arr2[n2-1])
+		{
+			insert(newArr, Arr1[n1-1], k);
+		}
+		else
+		{
+			insert(newArr, Arr2[n2 - 1], k);
+		}
+	}
+	return newArr;
+}
+
+void displayArray(vector<int>& v) {
+	for (size_t i = 0; i < v.size() - 1; i++)
 	{
 		cout << v[i] << " ";
 	}
 	cout << endl;
 }
 
+void printArr(int* a, int n) {
+	for (int i = 0; i < n; ++i) {
+		cout << a[i] << (i + 1 == n ? '\n' : ' ');
+	}
+}
+
 int main() {
 	//vector<int> input = { 42, 17, 8, 23, 8, 99, 17, 56, 1, 45, 3, 8, 90, 12, 50, 50, 7, 18, 8, 9, 72, 42, 6, 25, 19, 60, 5, 8, 15, 2 };
 	//vector<int> input = { 7, 2, 1, 6, 8, 5, 3, 4 };
-	vector<int> input = { 2 };
-	int length = input.size();
-	displayArray(input, length);
+	//int length = input.size();
+	//displayArray(input);
 
 	//bubbleSort(input, length);
 	//mySort(input, length);
 	//insertSort(input, length);
-	//selectionSort(input, length);
-	quickSort(input, 0, length - 1);
-	displayArray(input, length);
+	//selectionSort(input);
+	//quickSort(input, 0, length - 1);
+	//displayArray(input);
+
+	int A1[] = { 1 };
+	int A2[] = { 2,3,4 };
+
+	int l1 = sizeof(A1) / sizeof(A1[0]);
+	int l2 = sizeof(A2) / sizeof(A2[0]);
+	
+	int* newA_ptr = nullptr;
+	newA_ptr = merge(A1, A2, l1, l2);
+	printArr(newA_ptr, l1 + l2);
 
 	return 0;
 }
