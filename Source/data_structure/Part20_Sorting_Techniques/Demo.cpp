@@ -216,42 +216,29 @@ void insert(int* Arr, int key, int i) {
 
 int* merge(int Arr1[], int Arr2[], int n1, int n2) {
 	int* newArr = new int[n1 + n2];
-	int k=0;
-	while (k<n1+n2-1)
+	int i,j,k;
+	i = j = k = 0;
+	while (i<n1&&j<n2)
 	{
-		int jBackup = 0;
-		for (size_t i = 0; i < n1; i++)
+		if (Arr1[i]<Arr2[j])
 		{
-			for (size_t j = 0; j < n2; j++)
-			{
-				//Xử lý nếu j cần backup trong trường hợp Arr1[i] <= Arr2[j]
-				if (j>=jBackup)
-				{
-					if (Arr1[i] <= Arr2[j])
-					{
-						insert(newArr, Arr1[i], k);
-						k++;
-						jBackup = j;
-						break;
-					}
-					else
-					{
-						insert(newArr, Arr2[j], k);
-						k++;
-					}
-				}
-			}
-		}
-
-		//Xử lý phần tử cuối của 2 mảng
-		if (Arr1[n1-1]>Arr2[n2-1])
-		{
-			insert(newArr, Arr1[n1-1], k);
+			insert(newArr, Arr1[i++], k++);
 		}
 		else
 		{
-			insert(newArr, Arr2[n2 - 1], k);
+			insert(newArr, Arr2[j++], k++);
 		}
+	}
+
+	//Sao chép phần còn lại của Arr1 (nếu có)
+	while (i<n1)
+	{
+		insert(newArr, Arr1[i++], k++);
+	}
+	//Sao chép phần còn lại của Arr2 (nếu có)
+	while (j < n2)
+	{
+		insert(newArr, Arr2[j++], k++);
 	}
 	return newArr;
 }
@@ -283,14 +270,14 @@ int main() {
 	//quickSort(input, 0, length - 1);
 	//displayArray(input);
 
-	int A1[] = { 1 };
-	int A2[] = { 2,3,4 };
+	int A[] = { 1 };
+	int B[] = { 2,3,4 };
 
-	int l1 = sizeof(A1) / sizeof(A1[0]);
-	int l2 = sizeof(A2) / sizeof(A2[0]);
+	int l1 = sizeof(A) / sizeof(A[0]);
+	int l2 = sizeof(B) / sizeof(B[0]);
 	
 	int* newA_ptr = nullptr;
-	newA_ptr = merge(A1, A2, l1, l2);
+	newA_ptr = merge(A, B, l1, l2);
 	printArr(newA_ptr, l1 + l2);
 
 	return 0;
