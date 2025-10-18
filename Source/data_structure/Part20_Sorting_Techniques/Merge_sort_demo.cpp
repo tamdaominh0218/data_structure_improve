@@ -80,15 +80,7 @@ void mergeSort_Iterative(vector<int>& v) {
 		for (int left = 0; left < n-size; left+=2*size)
 		{
 			int mid = left + size - 1;
-			int right;
-			if (n%2!=0 && left+(2*size)>=n-size )
-			{
-				right = (left + (2 * size - 1))-1;
-			}
-			else
-			{
-				right = left + (2 * size - 1);
-			}
+			int right = min(left + 2 * size - 1, n - 1);
 			merge(v, left, mid, right);
 		}
 	}
