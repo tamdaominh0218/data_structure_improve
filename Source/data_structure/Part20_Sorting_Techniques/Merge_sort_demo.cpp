@@ -139,7 +139,7 @@ void countSort(vector<int>& v) {
 	}
 
 	//Ghi ngược lại vào mảng gốc
-	for (int i = 0; i <= range; i++)
+	/*for (int i = 0; i <= range; i++)
 	{
 		if (backUp[i]>0)
 		{
@@ -152,6 +152,15 @@ void countSort(vector<int>& v) {
 				v[k++] = i+findMin;
 				backUp[i]--;
 			}
+		}
+	}*/
+
+	for (int i = 0; i <= range; i++)
+	{
+		while (backUp[i]!=0)
+		{
+			v[k++] = i + findMin;
+			backUp[i]--;
 		}
 	}
 }
