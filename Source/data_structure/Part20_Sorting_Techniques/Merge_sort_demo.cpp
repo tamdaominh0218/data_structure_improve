@@ -86,6 +86,69 @@ void mergeSort_Iterative(vector<int>& v) {
 	}
 }
 
+//Hàm Merger Sort Revcusive
+void mergeSort_Recusive(vector<int>& v, int l, int h) {
+	int mid = (l + h) / 2;
+	if (l<h)
+	{
+		mergeSort_Recusive(v, l, mid);
+		mergeSort_Recusive(v, mid + 1, h);
+		merge(v, l, mid, h);
+	}
+}
+
+//API max của vector
+int max_vector(vector<int>& v) {
+	int vmax = INT16_MIN;
+	for (int i = 0; i < v.size(); i++)
+	{
+		if (v[i]> vmax)
+		{
+			vmax = v[i];
+		}
+	}
+	return vmax;
+}
+
+//Hàm Count Sort
+void countSort(vector<int>& v) {
+	int max = max_vector(v);
+	int k = 0;
+	vector<int> backUp;
+
+	for (int i = 0; i <= max; i++) {
+		backUp.push_back(0);
+	}
+
+	for (int i = 0; i <= max; i++)
+	{
+		for (int j = 0; j < v.size(); j++)
+		{
+			if (v[j]==i)
+			{
+				backUp[i]++;
+			}
+		}
+	}
+
+	for (int i = 0; i <= max; i++)
+	{
+		if (backUp[i]==1)
+		{
+			v[k++] = i;
+		}
+		else if (backUp[i] > 1)
+		{
+			int x = backUp[i];
+			while (x>0)
+			{
+				v[k++] = i;
+				x--;
+			}
+		}
+	}
+}
+
 void displayArray(vector<int>& v) {
 	for (size_t i = 0; i < v.size(); i++)
 	{
@@ -108,9 +171,11 @@ int main() {
 	//int mid = (l + h) / 2;
 	//printArr(A, length);
 
-	vector<int> V = { 2, 3, 2, 1, 3, 1 };
-	mergeSort_Iterative(V);
-	displayArray(V);
+	vector<int> Vec = { 2, 3, 3, 8, 12, 5, 6, 7 ,10};
+	//mergeSort_Iterative(Vec);
+	//mergeSort_Recusive(Vec, 0, Vec.size() - 1);
+	countSort(Vec);
+	displayArray(Vec);
 
 	return 0;
 }
