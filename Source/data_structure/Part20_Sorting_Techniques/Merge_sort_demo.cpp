@@ -97,9 +97,9 @@ void mergeSort_Recusive(vector<int>& v, int l, int h) {
 	}
 }
 
-//API max của vector
+//API tìm max vector
 int max_vector(vector<int>& v) {
-	int vmax = INT16_MIN;
+	int vmax = INT_MIN;
 	for (int i = 0; i < v.size(); i++)
 	{
 		if (v[i]> vmax)
@@ -110,40 +110,47 @@ int max_vector(vector<int>& v) {
 	return vmax;
 }
 
-//Hàm Count Sort
-void countSort(vector<int>& v) {
-	int max = max_vector(v);
-	int k = 0;
-	vector<int> backUp;
-
-	for (int i = 0; i <= max; i++) {
-		backUp.push_back(0);
-	}
-
-	for (int i = 0; i <= max; i++)
+//API tìm min vector
+int min_vector(vector<int>& v) {
+	int vmin = INT_MAX;
+	for (int i = 0; i < v.size(); i++)
 	{
-		for (int j = 0; j < v.size(); j++)
+		if (v[i] < vmin)
 		{
-			if (v[j]==i)
-			{
-				backUp[i]++;
-			}
+			vmin = v[i];
 		}
 	}
+	return vmin;
+}
 
-	for (int i = 0; i <= max; i++)
+
+//Hàm Count Sort
+void countSort(vector<int>& v) {
+	int findMax = max_vector(v);
+	int findMin = min_vector(v);
+	int range = findMax - findMin + 1;
+	int k = 0;
+	vector<int> backUp (range+1, 0);
+
+	//Nếu có số âm thì dịch giá trị về vùng dương bằng offset
+	for (int x: v)
 	{
-		if (backUp[i]==1)
+		backUp[x-findMin]++;
+	}
+
+	//Ghi ngược lại vào mảng gốc
+	for (int i = 0; i <= range; i++)
+	{
+		if (backUp[i]>0)
 		{
-			v[k++] = i;
+			v[k++] = i+findMin;
 		}
 		else if (backUp[i] > 1)
 		{
-			int x = backUp[i];
-			while (x>0)
+			while (backUp[i] > 0)
 			{
-				v[k++] = i;
-				x--;
+				v[k++] = i+findMin;
+				backUp[i]--;
 			}
 		}
 	}
