@@ -136,7 +136,7 @@ void insertSort(vector<int>& v) {
 	}
 }
 
-//Chọn phần tử có giá trị nhỏ nhất trong mảng chưa sắp xếp rồi swap với phần tử bên trái phần tử cuối cùng của mảng đã sắp xếp
+//Chọn phần tử có giá trị nhỏ nhất trong mảng chưa sắp xếp rồi swap với phần tử đầu
 void selectionSort(vector<int>& v) {
 	for (int i = 0; i < v.size() - 1; i++)
 	{

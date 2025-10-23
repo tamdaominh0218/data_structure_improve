@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <vector>
+#include <deque>
 
 using namespace std;
 
@@ -165,6 +166,61 @@ void countSort(vector<int>& v) {
 	}
 }
 
+void bucketSort(vector<int>& v) {
+	//Tìm phần tử max trong v
+	int vmax = max_vector(v);
+	vector<vector<int>> bins(vmax+1); //taọ vmax+1 thùng
+
+	//push từng phần tử vào thùng thích hợp
+	for (size_t i = 0; i < v.size(); i++)
+	{
+		bins[v[i]].push_back(v[i]);
+	}
+	int k = 0;
+
+	//cập nhật lại v theo thứ tự
+	for (size_t i = 0; i < vmax + 1; i++)
+	{
+		int x = 0;
+		while (bins[i].size()>0 && x < bins[i].size())
+		{
+			v[k++] = bins[i][x++];
+		}
+	}
+}
+
+void radixSort(vector<int>& v) {
+	//Tìm max để tính số lần chia lấy dư
+	int numMax = max_vector(v);
+	vector<deque<int>> radix(10);
+	//số mũ
+	int exponent = 0;
+	while (numMax>0)
+	{
+		for (auto x: v)
+		{
+			int temp = x;
+			//tìm số dư
+			int remainder = (temp /(int)(pow(10, exponent))) % 10;
+			radix[remainder].push_back(x);
+		}
+		//start cập nhật lại mảng
+		int k = 0;
+		for (int i = 0; i < 10; i++)
+		{
+			while (radix[i].size() > 0)
+			{
+				v[k++] = radix[i][0];
+				radix[i].pop_front();
+			}
+		}
+
+		//hỗ trợ lấy số dư tiếp theo
+		exponent++;
+		numMax /= 10;
+	}
+}
+
 void displayArray(vector<int>& v) {
 	for (size_t i = 0; i < v.size(); i++)
 	{
@@ -179,6 +235,18 @@ void printArr(int* a, int n) {
 	}
 }
 
+//int convertNum(int& num) {
+//	int remainder, newNum;
+//	newNum = 0;
+//	while (num>0)
+//	{
+//		remainder = num % 10;
+//		num = num / 10;
+//		newNum = newNum*10 + remainder;
+//	}
+//	return newNum;
+//}
+
 int main() {
 	//int A[] = { 2, 3, 8, 12, 5, 6, 7, 10 };
 	//int length = sizeof(A) / sizeof(A[0]);
@@ -187,11 +255,15 @@ int main() {
 	//int mid = (l + h) / 2;
 	//printArr(A, length);
 
-	vector<int> Vec = { 2, 3, 3, 8, 12, 5, 6, 7 ,10};
+	vector<int> Vec = { 237, 146, 259, 348, 152, 163, 235, 48, 36, 62};
 	//mergeSort_Iterative(Vec);
 	//mergeSort_Recusive(Vec, 0, Vec.size() - 1);
-	countSort(Vec);
+	//countSort(Vec);
+	//bucketSort(Vec);
+	radixSort(Vec);
 	displayArray(Vec);
+
+
 
 	return 0;
 }
