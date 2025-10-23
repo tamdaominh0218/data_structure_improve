@@ -221,6 +221,32 @@ void radixSort(vector<int>& v) {
 	}
 }
 
+void shellSort(vector<int>& v, int n) {
+	if (n==0)
+	{
+		return;
+	}
+	int gap = n/2;
+	for (int i = 0; i < v.size()-gap; i++)
+	{
+		if (v[i]>v[i+gap])
+		{
+			swap(v[i], v[i + gap]);
+		}
+	}
+	if (gap!=0)
+	{
+		for (int i = 0; i < v.size() - gap; i = i + gap)
+		{
+			if (v[i] > v[i + gap])
+			{
+				swap(v[i], v[i + gap]);
+			}
+		}
+	}
+	shellSort(v, gap);
+}
+
 void displayArray(vector<int>& v) {
 	for (size_t i = 0; i < v.size(); i++)
 	{
@@ -255,15 +281,19 @@ int main() {
 	//int mid = (l + h) / 2;
 	//printArr(A, length);
 
-	vector<int> Vec = { 237, 146, 259, 348, 152, 163, 235, 48, 36, 62};
+	vector<int> Vec = { 8, 5, 2, 9, 5, 6, 3 };
 	//mergeSort_Iterative(Vec);
 	//mergeSort_Recusive(Vec, 0, Vec.size() - 1);
 	//countSort(Vec);
 	//bucketSort(Vec);
-	radixSort(Vec);
+	//radixSort(Vec);
+	shellSort(Vec, Vec.size());
 	displayArray(Vec);
 
 
 
 	return 0;
 }
+
+//6, 5, 16, 8, 13, 9, 12, 10, 4, 2, 3
+//                 i                i
