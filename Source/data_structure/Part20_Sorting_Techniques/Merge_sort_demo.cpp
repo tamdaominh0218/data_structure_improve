@@ -221,30 +221,45 @@ void radixSort(vector<int>& v) {
 	}
 }
 
-void shellSort(vector<int>& v, int n) {
-	if (n==0)
+////Shell Sort phiên bản tự def
+//void shellSort(vector<int>& v) {
+//	int n = v.size();
+//	for (int gap = n/2; gap > 0; gap/=2)
+//	{
+//		for (int i = gap; i < n; i++)
+//		{
+//			int j = i - gap;
+//			int key = v[i];
+//			int k = i;
+//			while (j >= 0 && v[j]>key)
+//			{
+//				v[k] = v[k - gap];
+//				v[k-gap] = key;
+//				key = v[j];
+//				j = j - gap;
+//				k = k - gap;
+//			}
+//		}
+//	}
+//}
+
+//Shell sort phiên bản udemy
+void shellSort(vector<int>& v) {
+	int n = v.size();
+	for (int gap = n / 2; gap > 0; gap /= 2)
 	{
-		return;
-	}
-	int gap = n/2;
-	for (int i = 0; i < v.size()-gap; i++)
-	{
-		if (v[i]>v[i+gap])
+		for (int i = gap; i < n; i++)
 		{
-			swap(v[i], v[i + gap]);
-		}
-	}
-	if (gap!=0)
-	{
-		for (int i = 0; i < v.size() - gap; i = i + gap)
-		{
-			if (v[i] > v[i + gap])
+			int temp = v[i];
+			int j = i - gap;
+			while (j >= 0 && v[j] > temp)
 			{
-				swap(v[i], v[i + gap]);
+				v[j + gap] = v[j];
+				j = j - gap;
 			}
+			v[j+gap] = temp;
 		}
 	}
-	shellSort(v, gap);
 }
 
 void displayArray(vector<int>& v) {
@@ -261,17 +276,18 @@ void printArr(int* a, int n) {
 	}
 }
 
-//int convertNum(int& num) {
-//	int remainder, newNum;
-//	newNum = 0;
-//	while (num>0)
-//	{
-//		remainder = num % 10;
-//		num = num / 10;
-//		newNum = newNum*10 + remainder;
-//	}
-//	return newNum;
-//}
+//Only test convert num (liên quan radix)
+int convertNum(int& num) {
+	int remainder, newNum;
+	newNum = 0;
+	while (num>0)
+	{
+		remainder = num % 10;
+		num = num / 10;
+		newNum = newNum*10 + remainder;
+	}
+	return newNum;
+}
 
 int main() {
 	//int A[] = { 2, 3, 8, 12, 5, 6, 7, 10 };
@@ -281,19 +297,14 @@ int main() {
 	//int mid = (l + h) / 2;
 	//printArr(A, length);
 
-	vector<int> Vec = { 8, 5, 2, 9, 5, 6, 3 };
+	vector<int> Vec = { 42, 17, 8, 23, 8, 99, 17, 56, 1, 45, 3, 8, 90, 12, 50, 50, 7, 18, 8, 9, 72, 42, 6, 25, 19, 60, 5, 8, 15, 2 };
 	//mergeSort_Iterative(Vec);
 	//mergeSort_Recusive(Vec, 0, Vec.size() - 1);
 	//countSort(Vec);
 	//bucketSort(Vec);
 	//radixSort(Vec);
-	shellSort(Vec, Vec.size());
+	shellSort(Vec);
 	displayArray(Vec);
-
-
 
 	return 0;
 }
-
-//6, 5, 16, 8, 13, 9, 12, 10, 4, 2, 3
-//                 i                i

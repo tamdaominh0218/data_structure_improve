@@ -154,61 +154,61 @@ void selectionSort(vector<int>& v) {
 	}
 }
 
-//Quick sort phiên bản tự dev
-void quickSort(vector<int>& v, int left, int right) {
-	if (left>=right)
-	{
-		return;
-	}
-
-	int pivot = v[right];
-	int i = left-1;
-	int j = right;
-
-	while (i<j)
-	{
-		do
-		{
-			i++;
-		} while (v[i] < pivot);
-
-		do
-		{
-			if (j == 0) break;
-			j--;
-		} while (v[j] > pivot);
-
-		if (i <= j) {
-			swap(v[i], v[j]);
-		}
-	}
-
-	swap(v[right], v[i]);
-	quickSort(v, left, i - 1);
-	quickSort(v, i + 1, right);
-}
-
-////Quick sort phiên bản chuản Pseudocode (chatGPT)
-//void quickSort(vector<int>& arr, int left, int right) {
-//	if (left >= right) return; // dừng khi mảng con rỗng hoặc chỉ có 1 phần tử
+////Quick sort phiên bản tự dev
+//void quickSort(vector<int>& v, int left, int right) {
+//	if (left>=right)
+//	{
+//		return;
+//	}
 //
-//	int pivot = arr[right]; // chọn pivot là phần tử cuối
-//	int i = left - 1;
+//	int pivot = v[right];
+//	int i = left-1;
+//	int j = right;
 //
-//	for (int j = left; j < right; j++) {
-//		if (arr[j] < pivot) {
+//	while (i<j)
+//	{
+//		do
+//		{
 //			i++;
-//			swap(arr[i], arr[j]);
+//		} while (v[i] < pivot);
+//
+//		do
+//		{
+//			if (j == 0) break;
+//			j--;
+//		} while (v[j] > pivot);
+//
+//		if (i <= j) {
+//			swap(v[i], v[j]);
 //		}
 //	}
 //
-//	// Đưa pivot về đúng vị trí
-//	swap(arr[i + 1], arr[right]);
-//
-//	// Gọi đệ quy cho hai nửa
-//	quickSort(arr, left, i);
-//	quickSort(arr, i + 2, right);
+//	swap(v[right], v[i]);
+//	quickSort(v, left, i - 1);
+//	quickSort(v, i + 1, right);
 //}
+
+//Quick sort phiên bản chuẩn Pseudocode (chatGPT)
+void quickSort(vector<int>& arr, int left, int right) {
+	if (left >= right) return; // dừng khi mảng con rỗng hoặc chỉ có 1 phần tử
+
+	int pivot = arr[right]; // chọn pivot là phần tử cuối
+	int i = left - 1;
+
+	for (int j = left; j < right; j++) {
+		if (arr[j] < pivot) {
+			i++;
+			swap(arr[i], arr[j]);
+		}
+	}
+
+	// Đưa pivot về đúng vị trí
+	swap(arr[i + 1], arr[right]);
+
+	// Gọi đệ quy cho hai nửa
+	quickSort(arr, left, i);
+	quickSort(arr, i + 2, right);
+}
 
 void insert(int* Arr, int key, int i) {
 	Arr[i] = key;
@@ -281,4 +281,4 @@ int main() {
 	printArr(newA_ptr, l1 + l2);
 
 	return 0;
-}
+}  
